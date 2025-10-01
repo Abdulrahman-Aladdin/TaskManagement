@@ -175,6 +175,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\TaskAssignmentsController.cs" />
+    <Compile Include="Models\Utils.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -271,6 +272,8 @@
     <Content Include="Views\TaskAssignments\Edit.cshtml" />
     <Content Include="Views\TaskAssignments\Index.cshtml" />
     <Content Include="Views\Analytics\Index.cshtml" />
+    <Content Include="Views\Shared\_ColumnChart.cshtml" />
+    <Content Include="Views\Shared\_PieChart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
