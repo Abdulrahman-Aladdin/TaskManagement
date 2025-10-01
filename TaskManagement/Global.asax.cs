@@ -1,3 +1,4 @@
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,6 +14,15 @@ namespace TaskManagement
     {
         protected void Application_Start()
         {
+            var LogPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Logs/log.txt");
+
+            Log.Logger = new LoggerConfiguration()
+                    .MinimumLevel.Debug() // Log level (Debug, Info, Warning, Error)
+                    .WriteTo.Debug()
+                    .WriteTo.File(LogPath, rollingInterval: RollingInterval.Day)
+                    .CreateLogger();
+
+            Log.Information("Application Starting up...");
             Database.SetInitializer(new Models.AppDbInitializer());
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
