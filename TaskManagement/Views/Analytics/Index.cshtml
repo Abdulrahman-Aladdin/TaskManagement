@@ -3,5 +3,60 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Analytics Charts</h2>
+
+<div id="container" style="width:100%; height:400px;"></div>
+<script>
+     $(function () {
+         $.getJSON('@Url.Action("MemberHoursData", "Analytics")', function (data) {
+             Highcharts.chart('container', {
+                 chart: {
+                     type: 'column'
+                 },
+                 title: {
+                     text: 'Completed VS Remaining Hours'
+                 },
+                 subtitle: {
+                     text:
+                         'Source: <a target="_blank" ' +
+                         'href="https://www.indexmundi.com/agriculture/?commodity=corn">indexmundi</a>'
+                 },
+                 xAxis: {
+                     categories: data.map(d => d.MemberName),  // retrieve team members
+                     crosshair: true,
+                     accessibility: {
+                         description: 'Members'
+                     }
+                 },
+                 yAxis: {
+                     min: 0,
+                     title: {
+                         text: '60 hours'
+                     }
+                 },
+                 tooltip: {
+                     valueSuffix: '(Hours)'
+                 },
+                 plotOptions: {
+                     column: {
+                         pointPadding: 0.2,
+                         borderWidth: 0
+                     }
+                 },
+                 series: [
+                     {
+                         name: 'Completed Hours',
+                         data: data.map(d => d.CompletedHours)
+                     },
+                     {
+                         name: 'Remaining Hours',
+                         data: data.map(d => d.RemainingHours)
+                     }
+                 ]
+             });
+         });
+     });
+
+</script>
+
 
