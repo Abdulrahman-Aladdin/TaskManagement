@@ -18,6 +18,13 @@ namespace TaskManagement.Controllers
         public ActionResult Index()
         {
             var taskAssignments = db.TaskAssignments.Include(t => t.Member).Include(t => t.Task);
+            var statusCount = taskAssignments.GroupBy(t => t.Status).Select(
+                g => new
+                {
+                    status = g.Key.ToString(),
+                    count = g.Count()
+                }).ToList();
+            ViewBag.StatusData = statusCount;
             return View(taskAssignments.ToList());
         }
 

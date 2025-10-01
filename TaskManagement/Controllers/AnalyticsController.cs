@@ -17,6 +17,12 @@ namespace TaskManagement.Controllers
             return View();
         }
 
+        public ActionResult StatuspiChart()
+        {
+            //var data =
+            return View();
+
+
         public ActionResult TaskStatusData()
         {
                 var data = db.TaskAssignments
@@ -47,6 +53,7 @@ namespace TaskManagement.Controllers
 
             ViewBag.MemberHoursChartData = data;
             return Json(data, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

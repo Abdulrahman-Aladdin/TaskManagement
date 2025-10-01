@@ -29,29 +29,73 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Member.MemberName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Task.TaskName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompletedHours)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RemainingHours)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AssignmentId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AssignmentId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AssignmentId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member.MemberName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Task.TaskName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompletedHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RemainingHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.AssignmentId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.AssignmentId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.AssignmentId })
+            </td>
+        </tr>
+    }
 
 </table>
+
+
+<div id="statusPieChart" style="width:100%; height:400px;"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var statusData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.StatusData));
+        Highcharts.chart('statusPieChart', {
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: 'Task Status Distribution'
+            },
+            tooltip: {
+                pointFormat: '<b>{point.name}</b>: {point.percentage:.1f}%'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            series: [{
+                name: 'Tasks',
+                colorByPoint: true,
+                data: statusData.map(function(item) { 
+                  return  { name: item.status, y: item.count };
+
+            })
+    }]
+        });
+    });
+</script>
