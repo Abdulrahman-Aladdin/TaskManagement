@@ -13,5 +13,10 @@ namespace TaskManagement.Controllers
         {
             return View();
         }
+        public ActionResult StatuspiChart()
+        {
+            //var data =
+            return View();
+        }
     }
 }
