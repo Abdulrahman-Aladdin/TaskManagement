@@ -16,13 +16,13 @@ namespace TaskManagement.Controllers
             return View();
         }
 
-        public ActionResult MembersCompeletedHours()
+        public ActionResult MembersCompletedHours()
         {
             var data = db.Members
             .Select(m => new
             {
-                MemberName = m.MemberName,
-                CompletedHours = m.TaskAssignments.Sum(a => a.CompletedHours)
+                X = m.MemberName,
+                Y = m.TaskAssignments.Sum(a => a.CompletedHours)
             })
             .ToList();
 
@@ -34,8 +34,8 @@ namespace TaskManagement.Controllers
             var data = db.Members
                 .Select(m => new
                 {
-                    MemberName = m.MemberName,
-                    RemainingHours = m.TaskAssignments
+                    X = m.MemberName,
+                    Y = m.TaskAssignments
                     .Where(a => a.Status == TaskStatus.Active)
                     .Sum(a => a.RemainingHours)
                 }).ToList();
@@ -49,8 +49,8 @@ namespace TaskManagement.Controllers
                 .GroupBy(a => a.Status)
                 .Select(g => new
                 {
-                    Status = g.Key.ToString(),
-                    Count = g.Count()
+                    X = g.Key.ToString(),
+                    Y = g.Count()
                 }).ToList();
 
             return Json(data, JsonRequestBehavior.AllowGet);
